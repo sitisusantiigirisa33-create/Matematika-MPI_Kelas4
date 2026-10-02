@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petualangan Air & Angka: Gorontalo Utara</title>
+    
+    <style>
+        :root {
+            --primary: #7E22CE; /* Ungu Anggun */
+            --primary-light: #A855F7; 
+            --primary-dark: #581C87;
+            --accent: #EC4899; /* Pink Ceria */
+            --accent-hover: #DB2777;
+            --bg-color: #FDF2F8; /* Soft Pink & Ungu Tint */
+            --card-bg: #FFFFFF;
+            --text-main: #1F2937;
+            --text-muted: #4B5563;
+            --danger: #EF4444;
+            --success: #10B981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            background-image: radial-gradient(var(--primary-light) 0.6px, transparent 0.6px), radial-gradient(var(--primary-light) 0.6px, var(--bg-color) 0.6px);
+            background-size: 24px 24px;
+            background-position: 0 0, 12px 12px;
+            background-attachment: fixed;
+            background-opacity: 0.15;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 1rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary), var(--accent));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(126, 34, 206, 0.2);
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(236,72,153,0.3) 0%, transparent 60%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1rem;
+            color: #FBCFE8;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-btn {
+            background-color: var(--card-bg);
+            color: var(--primary);
+            border: 2px solid var(--primary-light);
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            flex: 1 1 120px;
+            max-width: 200px;
+        }
+
+        .nav-btn:hover {
+            background-color: var(--primary-light);
+            color: white;
+            border-color: var(--primary-light);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 0 12px rgba(236, 72, 153, 0.4);
+        }
+
+        .section-card {
+            background-color: var(--card-bg);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(126, 34, 206, 0.08);
+            display: none;
+            animation: fadeIn 0.5s ease;
+            margin-bottom: 2rem;
+            border: 1px solid #FAE8FF;
+        }
+
+        .section-card.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .interactive-box {
+            background: #FDF4FF;
+            border: 2px dashed var(--primary-light);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .slider-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .slider-container label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        input[type=range] {
+            width: 100%;
+            accent-color: var(--accent);
+            height: 8px;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .math-board {
+            background-color: #3B0764;
+            color: #F472B6;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 2rem;
+            border-radius: 1rem;
+            font-size: 1.5rem;
+            width: fit-content;
+            margin: 1.5rem auto;
+            text-align: right;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.5), 0 8px 16px rgba(126, 34, 206, 0.2);
+            line-height: 1.8;
+            letter-spacing: 5px;
+        }
+
+        .math-board .line { border-bottom: 2px solid white; margin: 0.5rem 0; width: 100%; }
+        .math-board .text-white { color: white; }
+        .math-board .text-gold { color: #FDE047; }
+
+        .matching-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 680px) {
+            .matching-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .matching-column {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .matching-column h3 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            text-align: center;
+            padding: 0.5rem;
+            background-color: #F3E8FF;
+            border-radius: 0.5rem;
+            border: 1px solid #E9D5FF;
+        }
+
+        .match-card {
+            background-color: #FFFFFF;
+            border: 2px solid #E9D5FF;
+            border-radius: 0.8rem;
+            padding: 1rem;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 70px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        }
+
+        .match-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
+        }
+
+        .match-card.selected {
+            background-color: #FDF2F8;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.3);
+            font-weight: bold;
+        }
+
+        .match-card.paired {
+            background-color: #F3E8FF;
+            border-color: var(--primary);
+            color: var(--primary-dark);
+        }
+
+        .match-card.correct-pair {
+            background-color: #DCFCE7;
+            border-color: var(--success);
+            color: #14532D;
+        }
+
+        .match-card.wrong-pair {
+            background-color: #FEE2E2;
+            border-color: var(--danger);
+            color: #7F1D1D;
+        }
+
+        .badge-pair {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 0.25rem 0.6rem;
+            border-radius: 1rem;
+            margin-left: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            padding: 0.85rem 1.5rem;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1.2rem;
+            box-shadow: 0 4px 10px rgba(126, 34, 206, 0.25);
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(126, 34, 206, 0.35);
+        }
+
+        .btn-secondary {
+            background-color: #F3E8FF;
+            color: var(--primary-dark);
+            border: 2px solid #E9D5FF;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background-color: #E9D5FF;
+        }
+
+        .feedback-box {
+            display: none;
+            padding: 1.2rem;
+            border-radius: 0.8rem;
+            margin-top: 1.2rem;
+            font-size: 0.95rem;
+            animation: fadeIn 0.3s;
+            line-height: 1.6;
+        }
+        .feedback-box.show { display: block; }
+        .feedback-success { background-color: #F0FDF4; border: 1.5px solid var(--success); color: #166534; }
+        .feedback-danger { background-color: #FFF1F2; border: 1.5px solid var(--accent); color: #881337; }
+
+        .score-display {
+            text-align: center;
+            font-size: 3.2rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin: 1rem 0;
+            text-shadow: 2px 2px 4px rgba(126, 34, 206, 0.15);
+        }
+
+        /* Responsive Fixes */
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.4rem; }
+            .math-board { font-size: 1.2rem; width: 100%; text-align: center; }
+            .nav-btn { padding: 0.5rem; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🌊 Petualangan Air & Angka 🌱</h1>
+            <p>Matematika Asyik MI Kelas IV - Gorontalo Utara</p>
+        </header>
+
+        <nav>
+            <button class="nav-btn active" onclick="showSection('beranda')">Beranda</button>
+            <button class="nav-btn" onclick="showSection('materi')">Materi</button>
+            <button class="nav-btn" onclick="showSection('eksplorasi')">Eksplorasi</button>
+            <button class="nav-btn" onclick="showSection('evaluasi')">Kuis Interaktif</button>
+        </nav>
+
+        <main>
+            <section id="beranda" class="section-card active">
+                <h2>Selamat Datang, Anak Hebat!</h2>
+                <p>Assalamualaikum! Hari ini kita akan bertualang di pesisir <strong>Gorontalo Utara</strong>.</p>
+                <p>Sebagai kawasan pesisir dan agraris, wilayah kita sangat bergantung pada <strong>Siklus Air (Presipitasi/Hujan)</strong> untuk pertanian dan menjaga kelestarian laut (konservasi lingkungan) dengan menanam mangrove.</p>
+                
+                <div class="interactive-box" style="text-align: center; background-color: var(--primary-dark); color: white;">
+                    <h3 style="color: var(--accent); margin-bottom: 10px;">🎯 Tujuan Belajar Kita:</h3>
+                    <p>Melalui petualangan menjaga alam ini, kamu akan mampu:<br>
+                    <strong>Menyelesaikan masalah operasi Perkalian Dua Angka Puluhan</strong> dengan tepat dan cepat!</p>
+                </div>
+                
+                <button class="btn-primary" onclick="showSection('materi')">Mulai Petualangan 🚀</button>
+            </section>
+
+            <section id="materi" class="section-card">
+                <h2>📖 Konsep Perkalian</h2>
+                <p>Saat menanam mangrove di pinggir pantai untuk mencegah abrasi, warga desa bekerja sama secara berkelompok.</p>
+                
+                <div style="background: #eef2ff; border-left: 5px solid #6366f1; padding: 1rem; margin: 1rem 0; border-radius: 0 0.5rem 0.5rem 0;">
+                    <strong>Contoh Kasus:</strong><br>
+                    Ada <strong>12 kelompok tani</strong> di Gorontalo Utara. Setiap kelompok membawa <strong>24 bibit mangrove</strong>. Berapa total bibit mangrove yang akan ditanam?
+                </div>
+
+                <p>Untuk menyelesaikannya, kita gunakan <strong>Perkalian Bersusun Ke Bawah</strong> (12 x 24 = ?).</p>
+                
+                <div class="math-board" style="font-size: 1.2rem; text-align: left; max-width: 300px; padding: 1.5rem;">
+                    &nbsp;&nbsp;1 2 <span class="text-white">(Kelompok)</span><br>
+                    &nbsp;&nbsp;2 4 <span class="text-white">(Bibit)</span><br>
+                    <div class="line"></div>
+                    <span class="text-white">&nbsp;&nbsp;&nbsp;&nbsp;x</span><br>
+                    &nbsp;&nbsp;4 8 <span class="text-gold">(4 x 12)</span><br>
+                    2 4 &nbsp; <span class="text-gold">(20 x 12)</span><br>
+                    <div class="line"></div>
+                    <span class="text-white">&nbsp;&nbsp;&nbsp;&nbsp;+</span><br>
+                    2 8 8 <span class="text-white">(Total Bibit)</span>
+                </div>
+                <button class="btn-primary" onclick="showSection('eksplorasi')">Coba Simulasi Mandiri 🧮</button>
+            </section>
+
+            <section id="eksplorasi" class="section-card">
+                <h2>🔍 Simulasi Tanam Mangrove</h2>
+                <p>Ayo bantu menghitung bibit! Geser tombol di bawah ini untuk mengubah jumlah kelompok tani dan jumlah bibit per kelompok.</p>
+                
+                <div class="interactive-box">
+                    <div class="slider-container">
+                        <label>Jumlah Kelompok Tani (Puluhan): <span id="val1" style="color:var(--primary); font-size:1.2em;">15</span> kelompok</label>
+                        <input type="range" id="input1" min="10" max="99" value="15" oninput="updateMathBoard()">
+                    </div>
+                    
+                    <div class="slider-container">
+                        <label>Bibit per Kelompok (Puluhan): <span id="val2" style="color:var(--primary); font-size:1.2em;">23</span> bibit</label>
+                        <input type="range" id="input2" min="10" max="99" value="23" oninput="updateMathBoard()">
+                    </div>
+                </div>
+
+                <div class="math-board" id="calcBoard">
+                    <!-- Kalkulasi akan di-render disini secara dinamis via JS -->
+                </div>
+                <p style="text-align: center; color: var(--text-muted);"><em>Perhatikan perubahan warna angka untuk memahami langkah perkalian!</em></p>
+            </section>
+
+            <section id="evaluasi" class="section-card">
+                <h2>🧩 Kuis Menjodohkan Perkalian</h2>
+                
+                <div id="quiz-intro">
+                    <p>Bantu warga Gorontalo Utara menyelesaikan permasalahan lingkungan! Jodohkan setiap <strong>Soal Cerita</strong> di sebelah kiri dengan <strong>Jawaban Hasil Perkalian</strong> yang tepat di sebelah kanan.</p>
+                    <div class="interactive-box" style="margin-bottom: 1.5rem; text-align: left;">
+                        <strong>💡 Cara Bermain:</strong>
+                        <ol style="margin-left: 1.2rem; margin-top: 0.5rem;">
+                            <li>Klik/Ketuk salah satu kartu <strong>Soal (Kolom Kiri)</strong>.</li>
+                            <li>Klik/Ketuk kartu <strong>Jawaban (Kolom Kanan)</strong> yang cocok dengannya.</li>
+                            <li>Pasangkan semua 5 soal, lalu tekan tombol <strong>"Periksa Hasil Jodohkan"</strong>!</li>
+                        </ol>
+                    </div>
+                    <button class="btn-primary" onclick="startMatchingQuiz()">Mulai Menjodohkan 🚀</button>
+                </div>
+
+                <div id="quiz-container" style="display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <span style="font-weight: bold; color: var(--primary-dark);" id="pair-status">Terpasang: 0 / 5</span>
+                        <button class="btn-secondary" style="width: auto; padding: 0.4rem 1rem;" onclick="resetPairs()">Ulangi Pasangan 🔄</button>
+                    </div>
+
+                    <div class="matching-grid">
+                        <div class="matching-column" id="col-questions">
+                            <h3>📌 Soal Cerita (Kontekstual)</h3>
+                            <!-- Kartu soal dipasang secara dinamis -->
+                        </div>
+                        <div class="matching-column" id="col-answers">
+                            <h3>🎯 Jawaban (Hasil)</h3>
+                            <!-- Kartu jawaban dipasang secara dinamis -->
+                        </div>
+                    </div>
+
+                    <button id="btn-check" class="btn-primary" onclick="checkMatchingAnswers()">Periksa Hasil Jodohkan 🔍</button>
+
+                    <div id="feedback-container" class="feedback-box">
+                        <!-- Umpan balik & pembahasan -->
+                    </div>
+                </div>
+
+                <div id="quiz-result" style="display: none; text-align: center;">
+                    <h3>🎉 Petualangan Menjodohkan Selesai!</h3>
+                    <p>Kamu telah membantu menghitung sumber daya alam di Gorontalo Utara.</p>
+                    <div class="score-display" id="final-score">100</div>
+                    <p id="score-message" style="margin-bottom: 1.5rem; font-weight: bold;"></p>
+                    
+                    <!-- Form Pengiriman Hasil ke Google Sheet -->
+                    <div class="interactive-box" style="text-align: left; max-width: 450px; margin: 1rem auto; background-color: #FFFFFF;">
+                        <h4 style="color: var(--primary-dark); margin-bottom: 0.8rem; text-align: center;">📥 Kirim Hasil ke Guru</h4>
+                        
+                        <div style="margin-bottom: 0.8rem;">
+                            <label style="display: block; font-size: 0.9rem; font-weight: bold; margin-bottom: 0.3rem; color: var(--primary-dark);">Nama Lengkap Siswa:</label>
+                            <input type="text" id="student-name" placeholder="Masukkan nama kamu..." style="width: 100%; padding: 0.6rem; border: 2px solid #E9D5FF; border-radius: 0.5rem; font-size: 0.95rem; outline: none;">
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; font-size: 0.9rem; font-weight: bold; margin-bottom: 0.3rem; color: var(--primary-dark);">Kelas / Kelompok:</label>
+                            <input type="text" id="student-class" placeholder="Contoh: IV-A / Kelompok 1" style="width: 100%; padding: 0.6rem; border: 2px solid #E9D5FF; border-radius: 0.5rem; font-size: 0.95rem; outline: none;">
+                        </div>
+
+                        <button id="btn-submit-sheet" class="btn-primary" style="margin-top: 0;" onclick="sendScoreToGoogleSheet()">Kirim Nilai ke Spreadsheet 🚀</button>
+                        <p id="submit-status" style="margin-top: 0.8rem; font-size: 0.85rem; text-align: center; font-weight: bold;"></p>
+                    </div>
+
+                    <button class="btn-secondary" style="max-width: 450px; margin-top: 1rem;" onclick="startMatchingQuiz()">Mainkan Lagi 🔄</button>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // --- LOGIKA NAVIGASI ---
+        function showSection(sectionId) {
+            document.querySelectorAll('.section-card').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-btn').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            document.getElementById(sectionId).classList.add('active');
+            
+            const btns = document.querySelectorAll('.nav-btn');
+            btns.forEach(btn => {
+                if(btn.getAttribute('onclick').includes(sectionId)) {
+                    btn.classList.add('active');
+                }
+            });
+
+            if(sectionId === 'eksplorasi') updateMathBoard();
+        }
+
+        // --- LOGIKA ALAT PERAGA EKSPLORASI ---
+        function pad(num, size) {
+            let s = num + "";
+            while (s.length < size) s = "&nbsp;" + s;
+            return s;
+        }
+
+        function updateMathBoard() {
+            const n1 = parseInt(document.getElementById('input1').value);
+            const n2 = parseInt(document.getElementById('input2').value);
+            
+            document.getElementById('val1').innerText = n1;
+            document.getElementById('val2').innerText = n2;
+
+            const n2_ones = n2 % 10;
+            const n2_tens = Math.floor(n2 / 10);
+
+            const p1 = n1 * n2_ones;
+            const p2 = n1 * n2_tens; 
+            const total = n1 * n2;
+
+            const board = document.getElementById('calcBoard');
+            
+            board.innerHTML = `
+                ${pad(n1, 5)}<br>
+                ${pad(n2, 5)}<br>
+                <div class="line"></div>
+                <span class="text-white">&nbsp;&nbsp;&nbsp;&nbsp;x</span><br>
+                <span class="text-gold" title="${n2_ones} x ${n1}">${pad(p1, 5)}</span><br>
+                <span class="text-gold" title="${n2_tens}0 x ${n1}">${pad(p2, 4)}&nbsp;</span><br>
+                <div class="line"></div>
+                <span class="text-white">&nbsp;&nbsp;&nbsp;&nbsp;+</span><br>
+                <span class="text-white">${pad(total, 5)}</span>
+            `;
+        }
+
+        // --- LOGIKA KUIS MENJODOHKAN (MATCHING GAME) ---
+        const matchingData = [
+            {
+                id: 1,
+                question: "Nelayan TPI Kwandang membawa 14 keranjang ikan, masing-masing seberat 25 kg. Total ikan?",
+                calc: "14 × 25",
+                answer: "350 kg",
+                explanation: "14 × 25 = (14 × 5) + (14 × 20) = 70 + 280 = 350 kg"
+            },
+            {
+                id: 2,
+                question: "Tadah hujan di 15 tangki air warga, tiap tangki berisi 42 liter air presipitasi. Total air?",
+                calc: "15 × 42",
+                answer: "630 liter",
+                explanation: "15 × 42 = (15 × 2) + (15 × 40) = 30 + 600 = 630 liter"
+            },
+            {
+                id: 3,
+                question: "Pusat konservasi membagikan 24 paket tunas mangrove, tiap paket berisi 35 tunas. Total tunas?",
+                calc: "24 × 35",
+                answer: "840 tunas",
+                explanation: "24 × 35 = (24 × 5) + (24 × 30) = 120 + 720 = 840 tunas"
+            },
+            {
+                id: 4,
+                question: "Pelepasan tukik di pantai Kwandang sebanyak 18 kelompok, tiap kelompok 15 ekor. Total tukik?",
+                calc: "18 × 15",
+                answer: "270 ekor",
+                explanation: "18 × 15 = (18 × 5) + (18 × 10) = 90 + 180 = 270 ekor"
+            },
+            {
+                id: 5,
+                question: "Aksi bersih pantai mengumpulkan 32 karung sampah plastik, tiap karung memuat 12 kg. Total sampah?",
+                calc: "32 × 12",
+                answer: "384 kg",
+                explanation: "32 × 12 = (32 × 2) + (32 × 10) = 64 + 320 = 384 kg"
+            }
+        ];
+
+        let selectedQuestionId = null;
+        let userPairings = {}; // Map questionId -> answerId
+        let isEvaluated = false;
+        let currentQuizScore = 0;
+        let currentQuizDetail = "";
+
+        // URL Web App Google Apps Script milik Anda:
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzDhdUebRpZvIKZkfRZKULzKmevEy8MYwPH7Q9oBm9APxC6hm-jGh3uGfLNrYSnEqEd9w/exec";
+
+        function startMatchingQuiz() {
+            document.getElementById('quiz-intro').style.display = 'none';
+            document.getElementById('quiz-result').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'block';
+            
+            userPairings = {};
+            selectedQuestionId = null;
+            isEvaluated = false;
+            
+            renderMatchingBoard();
+        }
+
+        function renderMatchingBoard() {
+            const colQ = document.getElementById('col-questions');
+            const colA = document.getElementById('col-answers');
+
+            colQ.innerHTML = '<h3>📌 Soal Cerita (Kontekstual)</h3>';
+            colA.innerHTML = '<h3>🎯 Jawaban (Hasil)</h3>';
+
+            const shuffledAnswers = [...matchingData].sort(() => Math.random() - 0.5);
+
+            matchingData.forEach(q => {
+                const card = document.createElement('div');
+                card.className = 'match-card';
+                card.id = `q-card-${q.id}`;
+                card.onclick = () => selectQuestionCard(q.id);
+
+                const pairedAnsId = userPairings[q.id];
+                let badge = '';
+                if (pairedAnsId) {
+                    card.classList.add('paired');
+                    badge = `<span class="badge-pair">Pasangan #${getPairIndex(q.id)}</span>`;
+                }
+
+                if (selectedQuestionId === q.id) {
+                    card.classList.add('selected');
+                }
+
+                card.innerHTML = `<div><strong>Soal ${q.id}:</strong> ${q.question}</div>${badge}`;
+                colQ.appendChild(card);
+            });
+
+            shuffledAnswers.forEach(a => {
+                const card = document.createElement('div');
+                card.className = 'match-card';
+                card.id = `a-card-${a.id}`;
+                card.onclick = () => selectAnswerCard(a.id);
+
+                const matchedQId = Object.keys(userPairings).find(qId => userPairings[qId] === a.id);
+                let badge = '';
+                if (matchedQId) {
+                    card.classList.add('paired');
+                    badge = `<span class="badge-pair">Pasangan #${getPairIndex(parseInt(matchedQId))}</span>`;
+                }
+
+                card.innerHTML = `<div style="font-weight:bold; font-size:1.1rem; color:var(--primary-dark);">${a.answer}</div>${badge}`;
+                colA.appendChild(card);
+            });
+
+            updatePairStatus();
+            document.getElementById('feedback-container').className = 'feedback-box';
+        }
+
+        function selectQuestionCard(qId) {
+            if (isEvaluated) return;
+            selectedQuestionId = qId;
+            renderMatchingBoard();
+        }
+
+        function selectAnswerCard(aId) {
+            if (isEvaluated) return;
+            if (!selectedQuestionId) {
+                const statusEl = document.getElementById('pair-status');
+                statusEl.innerText = "⚠️ Pilih salah satu Soal Cerita (Kolom Kiri) terlebih dahulu!";
+                statusEl.style.color = "var(--danger)";
+                setTimeout(updatePairStatus, 3000);
+                return;
+            }
+
+            Object.keys(userPairings).forEach(qId => {
+                if (userPairings[qId] === aId) delete userPairings[qId];
+            });
+
+            userPairings[selectedQuestionId] = aId;
+            selectedQuestionId = null;
+            renderMatchingBoard();
+        }
+
+        function getPairIndex(qId) {
+            const keys = Object.keys(userPairings).map(Number);
+            return keys.indexOf(qId) + 1;
+        }
+
+        function updatePairStatus() {
+            const count = Object.keys(userPairings).length;
+            document.getElementById('pair-status').innerText = `Terpasang: ${count} / 5 Pasangan`;
+        }
+
+        function resetPairs() {
+            if (isEvaluated) return;
+            userPairings = {};
+            selectedQuestionId = null;
+            renderMatchingBoard();
+        }
+
+        function checkMatchingAnswers() {
+            const pairedCount = Object.keys(userPairings).length;
+            if (pairedCount < 5) {
+                const statusEl = document.getElementById('pair-status');
+                statusEl.innerText = "⚠️ Pasangkan seluruh 5 soal sebelum memeriksa!";
+                statusEl.style.color = "var(--danger)";
+                setTimeout(updatePairStatus, 3000);
+                return;
+            }
+
+            isEvaluated = true;
+            let correctCount = 0;
+            let feedbackHTML = "<strong>📋 Pembahasan Langkah Perkalian:</strong><br><ol style='margin-left: 1.2rem; margin-top:0.5rem;'>";
+
+            matchingData.forEach(q => {
+                const userAnsId = userPairings[q.id];
+                const qCard = document.getElementById(`q-card-${q.id}`);
+                const aCard = document.getElementById(`a-card-${q.id}`);
+
+                if (userAnsId === q.id) {
+                    correctCount++;
+                    qCard.classList.add('correct-pair');
+                    aCard.classList.add('correct-pair');
+                    feedbackHTML += `<li style='color:#15803D;'><strong>Soal ${q.id} (BENAR):</strong> ${q.calc} = <strong>${q.answer}</strong><br><em>${q.explanation}</em></li>`;
+                } else {
+                    qCard.classList.add('wrong-pair');
+                    feedbackHTML += `<li style='color:#B91C1C;'><strong>Soal ${q.id} (KURANG TEPAT):</strong> Pembetulan: ${q.calc} = <strong>${q.answer}</strong><br><em>${q.explanation}</em></li>`;
+                }
+            });
+
+            feedbackHTML += "</ol>";
+
+            const score = correctCount * 20;
+            const feedbackBox = document.getElementById('feedback-container');
+            feedbackBox.className = `feedback-box ${score === 100 ? 'feedback-success' : 'feedback-danger'} show`;
+            feedbackBox.innerHTML = `<strong>Skor Akhir Menjodohkan: ${score} / 100</strong> (${correctCount} dari 5 Benar)<br>${feedbackHTML}
+            <button class="btn-primary" style="margin-top:1rem;" onclick="showFinalResult(${score})">Lihat Rangkuman Hasil 🏆</button>`;
+        }
+
+        function showFinalResult(score) {
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('quiz-result').style.display = 'block';
+            document.getElementById('final-score').innerText = score;
+            
+            currentQuizScore = score;
+            
+            let detailArr = [];
+            matchingData.forEach(q => {
+                const isCorrect = userPairings[q.id] === q.id;
+                detailArr.push(`S${q.id}:${isCorrect ? 'Benar' : 'Salah'}`);
+            });
+            currentQuizDetail = detailArr.join(', ');
+
+            document.getElementById('btn-submit-sheet').disabled = false;
+            document.getElementById('btn-submit-sheet').innerText = "Kirim Nilai ke Spreadsheet 🚀";
+            document.getElementById('submit-status').innerText = "";
+            document.getElementById('submit-status').style.color = "var(--text-main)";
+
+            let message = "";
+            if(score === 100) message = "Sempurna! Kamu adalah Master Menjodohkan Perkalian dan Pahlawan Lingkungan Gorontalo Utara! 🌟💜";
+            else if(score >= 60) message = "Bagus sekali! Sedikit lagi latihan kamu akan memasangkan semua jawaban dengan tepat! 👍💖";
+            else message = "Jangan berkecil hati! Pelajari kembali materi simulasi perkalian dan coba jodohkan ulang. Kamu pasti bisa! 💪🌸";
+            
+            document.getElementById('score-message').innerText = message;
+        }
+
+        // --- FUNGSI MENGIRIM DATA KE GOOGLE SPREADSHEET ---
+        function sendScoreToGoogleSheet() {
+            const nameInput = document.getElementById('student-name').value.trim();
+            const classInput = document.getElementById('student-class').value.trim();
+            const statusEl = document.getElementById('submit-status');
+            const btnEl = document.getElementById('btn-submit-sheet');
+
+            if (!nameInput || !classInput) {
+                statusEl.innerText = "⚠️ Harap isi Nama Lengkap dan Kelas kamu terlebih dahulu!";
+                statusEl.style.color = "var(--danger)";
+                return;
+            }
+
+            btnEl.disabled = true;
+            btnEl.innerText = "Mengirim data... ⏳";
+            statusEl.innerText = "Sedang menghubungkan ke Google Sheet...";
+            statusEl.style.color = "var(--primary)";
+
+            const payload = {
+                nama: nameInput,
+                kelas: classInput,
+                skor: currentQuizScore,
+                detail: currentQuizDetail
+            };
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                btnEl.innerText = "Berhasil Terkirim! ✅";
+                statusEl.innerText = "🎉 Nilai kamu berhasil disimpan di Google Sheet Guru!";
+                statusEl.style.color = "var(--success)";
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                btnEl.disabled = false;
+                btnEl.innerText = "Kirim Ulang 🚀";
+                statusEl.innerText = "❌ Gagal mengirim nilai. Pastikan koneksi internet aktif saat menekan tombol kirim.";
+                statusEl.style.color = "var(--danger)";
+            });
+        }
+
+        window.onload = function() {
+            showSection('beranda');
+        }
+    </script>
+</body>
+</html>
